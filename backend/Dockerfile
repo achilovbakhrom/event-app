@@ -1,14 +1,14 @@
-FROM node:21-alpine3.17
+FROM node:18-alpine
 
-WORKDIR /var/www/app
+WORKDIR /usr/src/app
 
-# COPY ./backend/package*.json /var/www/app/
+COPY package*.json ./
 
-# COPY ./backend/package*.json .
+RUN yarn install
 
 COPY . .
 
-RUN yarn install && yarn build
+RUN yarn build
 
 EXPOSE 3000
 
