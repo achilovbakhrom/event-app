@@ -1,5 +1,5 @@
 node_modules
-postgres_data
+./backend/postgres-data
 dist
 .vscode
 # .env
