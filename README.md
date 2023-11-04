@@ -7,9 +7,9 @@
 
 ## Usage
 
-<b>1. Using script:</b>
+<b>1. Using script:</b> <br />
 
-`chmod +x run.sh`
+`chmod +x run.sh` <br />
 `./run.sh`
 
 <b>Note</b>: If you want to stop and remove the services from your local machine there is a script for this purpose. 
@@ -17,10 +17,10 @@
 
 <b>2. Manually:</b>
    
-Download the repository.
-`cd backend`
-`docker compose up`
+Download the repository. <br />
+`cd backend` <br />
+`docker compose up` <br />
 
-To stop the services and remove containers u can use:
+To stop the services and remove containers u can use: <br />
 `docker compose down`
 
