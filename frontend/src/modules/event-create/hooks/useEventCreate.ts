@@ -1,9 +1,10 @@
 import { computed, reactive, watch } from 'vue'
-import { required, minLength, numeric } from '@vuelidate/validators'
+import { required, minLength } from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
 import { useRoute, useRouter } from 'vue-router'
 import useEventCreateMutation from './mutation'
 import useGetEventById from './query'
+import type { Location } from '@/models/location'
 
 const initialState: {
   id?: number
@@ -11,15 +12,12 @@ const initialState: {
   startDate: string
   endDate: string
   description?: string
-  longitude?: string
-  lattitude?: string
+  location?: Location
 } = {
   name: '',
   startDate: '',
   endDate: '',
-  description: '',
-  longitude: '',
-  lattitude: ''
+  description: ''
 }
 
 const useEventCreate = () => {
@@ -29,9 +27,7 @@ const useEventCreate = () => {
   const rules = reactive({
     name: { required, minLength: minLength(5) },
     startDate: { required },
-    endDate: { required },
-    longitude: { numeric },
-    lattitude: { numeric }
+    endDate: { required }
   })
 
   const { createOrUpdateEvent, state: mutationState } = useEventCreateMutation(
@@ -51,8 +47,7 @@ const useEventCreate = () => {
       state.startDate = currentEvent.startDate
       state.endDate = currentEvent.endDate
       state.description = currentEvent.description
-      state.longitude = currentEvent.location?.longitude
-      state.lattitude = currentEvent.location?.lattitude
+      state.location = currentEvent.location
     }
   })
 
@@ -72,13 +67,7 @@ const useEventCreate = () => {
         startDate: state.startDate,
         endDate: state.endDate,
         description: state.description,
-        location:
-          state.lattitude && state.longitude
-            ? {
-                longitude: state.longitude,
-                lattitude: state.lattitude
-              }
-            : undefined
+        location: state.location
       })
     }
   }

@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import useEventCreate from '../hooks/useEventCreate'
 import VueDatePicker from '@vuepic/vue-datepicker'
+import LocationSelect from '@/modules/shared/components/locationSelect/LocationSelect.vue'
 
 const { submit, form$, state, loading, error } = useEventCreate()
 const startDateError = computed(() => !!form$.value.startDate.$errors.length)
@@ -65,21 +66,8 @@ const endDateError = computed(() => !!form$.value.endDate.$errors.length)
             </v-col>
           </v-row>
           <v-row>
-            <v-col md="6">
-              <v-text-field
-                label="Longitude"
-                variant="outlined"
-                v-model="state.longitude"
-                :error-messages="form$.longitude.$errors.map((item) => item.$message).join(', ')"
-              ></v-text-field>
-            </v-col>
-            <v-col md="6">
-              <v-text-field
-                label="Lattitude"
-                variant="outlined"
-                v-model="state.lattitude"
-                :error-messages="form$.lattitude.$errors.map((item) => item.$message).join(', ')"
-              ></v-text-field>
+            <v-col md="12">
+              <location-select v-model="state.location"></location-select>
             </v-col>
           </v-row>
           <v-row>

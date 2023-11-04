@@ -35,13 +35,15 @@ const useEventCreateMutation = (isUpdate: boolean) => {
     state.error = e.message
   })
 
+  const formatDate = (arg: string) => moment(arg).format('YYYY-MM-DDTHH:mm:ss') + 'Z'
+
   const createOrUpdateEvent = (event: Event) => {
     state.error = null
     state.loading = true
     mutate({
       ...event,
-      startDate: moment(event.startDate).format('YYYY-MM-DDTHH:mm:ss') + 'Z',
-      endDate: moment(event.endDate).format('YYYY-MM-DDTHH:mm:ss') + 'Z'
+      startDate: formatDate(event.startDate),
+      endDate: formatDate(event.endDate)
     })
   }
 

@@ -21,12 +21,17 @@ export default class EventService {
   ) {}
 
   public async createEvent(event: EventEntity) {
-    let result = { ...event };
-    if (event.location) {
-      const newLocation = await this.createLocationIfNotExists(event.location);
-      result = { ...result, location: newLocation };
+    if (event.location && event.location.id) {
+      const found = await this.locationRepository.findOne({
+        where: {
+          id: event.location.id,
+        },
+      });
+      if (!found) {
+        throw new BadRequestException('Provided location does not exist in db');
+      }
     }
-    return plainToClass(EventEntity, await this.eventRepository.save(result));
+    return plainToClass(EventEntity, await this.eventRepository.save(event));
   }
 
   public async updateEvent(
@@ -45,28 +50,21 @@ export default class EventService {
       throw new ForbiddenException('User has no permission to update');
     }
 
-    let result = { ...found, ...newEvent, id };
-    if (newEvent.location) {
-      const newLocation = await this.createLocationIfNotExists(
-        newEvent.location,
-      );
-      result = { ...result, location: newLocation, id: Number(id) };
+    if (newEvent.location && newEvent.location.id) {
+      const found = await this.locationRepository.findOne({
+        where: {
+          id: newEvent.location.id,
+        },
+      });
+      if (!found) {
+        throw new BadRequestException('Provided location does not exist in db');
+      }
     }
 
-    return plainToClass(EventEntity, await this.eventRepository.save(result));
-  }
-
-  public async createLocationIfNotExists(location: LocationEntity) {
-    const foundLocation = await this.locationRepository.findOne({
-      where: {
-        lattitude: location.lattitude,
-        longitude: location.longitude,
-      },
-    });
-    if (foundLocation) {
-      return foundLocation;
-    }
-    return this.locationRepository.save(location);
+    return plainToClass(
+      EventEntity,
+      await this.eventRepository.save({ ...found, ...newEvent, id }),
+    );
   }
 
   public async deleteEvent(id: number, user: UserEntity) {
