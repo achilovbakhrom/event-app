@@ -1,0 +1,120 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""location"""
+type LocationEntity {
+  id: ID
+  lattitude: String!
+  longitude: String!
+  events: [EventEntity!]
+}
+
+"""event"""
+type EventEntity {
+  id: ID
+  name: String!
+  startDate: DateTime
+  endDate: DateTime
+  description: String
+  user: [UserEntity!]
+  location: LocationEntity
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+"""user"""
+type UserEntity {
+  id: ID!
+  email: String!
+  password: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  events: [EventEntity!]!
+}
+
+type TokenDto {
+  accessToken: String!
+}
+
+type EventsResponse {
+  data: [EventEntity!]!
+  total: Float!
+}
+
+type LocationsResponse {
+  data: [LocationEntity!]!
+  total: Float!
+}
+
+input LocationInput {
+  id: ID
+  lattitude: String!
+  longitude: String!
+  events: [EventInput!]
+}
+
+input EventInput {
+  id: ID
+  name: String!
+  startDate: DateTime
+  endDate: DateTime
+  description: String
+  user: [UserInput!]
+  location: LocationInput
+}
+
+input UserInput {
+  id: ID!
+  email: String!
+  password: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  events: [EventInput!]!
+}
+
+type Query {
+  login(user: SignInDto!): TokenDto!
+  getEvent(id: Float!): EventEntity!
+  getEvents(filter: EventFilterInput!): EventsResponse!
+  getLocation(id: Float!): LocationEntity!
+  getLocations(filter: FilterInput!): LocationsResponse!
+  getSelectLocations: [LocationEntity!]!
+}
+
+input SignInDto {
+  email: String! = ""
+  password: String! = ""
+}
+
+input EventFilterInput {
+  page: Float!
+  size: Float!
+  userId: Float
+  from: DateTime
+  to: DateTime
+  longitude: String
+  lattitude: String
+}
+
+input FilterInput {
+  page: Float!
+  size: Float!
+  userId: Float
+  from: DateTime
+  to: DateTime
+}
+
+type Mutation {
+  signUp(user: SignInDto!): UserEntity!
+  logout: Boolean!
+  createEvent(event: EventInput!): EventEntity!
+  updateEvent(event: EventInput!): EventEntity!
+  removeEvent(id: Float!): Boolean!
+  createLocation(location: LocationInput!): LocationEntity!
+  updateLocation(location: LocationInput!): LocationEntity!
+  removeLocation(id: Float!): Boolean!
+}
