@@ -8,7 +8,11 @@ type LocationSelectResponse = {
 }
 
 const useLocationSelect = () => {
-  const { loading, result, error } = useQuery<LocationSelectResponse>(QUERY_LOCATION_SELECT)
+  const { loading, result, error } = useQuery<LocationSelectResponse>(
+    QUERY_LOCATION_SELECT,
+    {},
+    { fetchPolicy: 'no-cache' }
+  )
   const data = computed(() => result.value?.getSelectLocations ?? [])
   const model = ref()
   return { loading, data, error, model }
