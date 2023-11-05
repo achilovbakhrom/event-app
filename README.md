@@ -24,13 +24,9 @@ Download the repository. <br />
 To stop the services and remove containers u can use: <br />
 `docker compose down`
 
-## Usage
+## Usage (Links)
+**[Frontend](http://locahost:8080)**
 
-**Frontend:**
-`http://locahost:8080`
+**[Swagger](http://locahost:3000/api)**
 
-**Swagger:**
-`http://locahost:3000/api`
-
-**Graphql:**
-`http://locahost:3000/graphql`
+**[Graphql](http://locahost:3000/graphql)**
